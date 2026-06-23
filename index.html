@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Pengiriman | PT Murinda Sentra Baja</title>
+    <!-- Font Mewah & Modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- JsBarcode -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+    <style>
+        :root {
+            /* Warna Premium Corporate */
+            --murinda-blue: #0A192F; /* Deep Navy Blue */
+            --murinda-blue-light: #112240;
+            --murinda-red: #D90429;
+            --komatsu-gold: #F5B041;
+            
+            --bg-body: #F4F7F6;
+            --bg-surface: #FFFFFF;
+            --border-color: #E2E8F0;
+            
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 10px 30px rgba(10, 25, 47, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- TOP NAVBAR --- */
+        .topbar {
+            background: var(--bg-surface);
+            min-height: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        /* Container Logo & Info Teks */
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-logo img {
+            height: 48px;
+            object-fit: contain;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .brand-text-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+        }
+
+        .brand-text-info .comp-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--murinda-blue);
+            letter-spacing: -0.3px;
+        }
+
+        .brand-text-info .sheet-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--murinda-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .brand-text-info .location-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Kanan Controls Zone */
+        .controls-zone {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Status Online */
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #F0FDF4;
+            border: 1px solid #BBF7D0;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #16A34A;
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #22C55E;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .refresh-text span { font-weight: 800; color: var(--murinda-blue); }
+
+        /* Dropdown Bulan/Tahun Elegan */
+        .dropdown-nav-zone {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-body);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .elegant-select {
+            background: var(--bg-surface);
+            color: var(--murinda-blue);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .elegant-select:hover {
+            border-color: var(--murinda-blue);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        /* --- MAIN LAYOUT (SIDEBAR + CALENDAR) --- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 30px;
+            padding: 30px 40px;
+            flex-grow: 1;
+            max-width: 1800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Sidebar Summary */
+        .summary-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-subtle);
+            height: fit-content;
+            position: sticky;
+            top: 130px;
+        }
+
+        .summary-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--murinda-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--bg-body);
+            padding-bottom: 15px;
+        }
+
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 65vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .summary-list::-webkit-scrollbar { width: 4px; }
+        .summary-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+        /* Desain Accordion Client */
+        .client-collapse-item {
+            background: var(--bg-body);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .client-header-btn {
+            width: 100%;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-surface);
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        .client-header-btn:hover { background: #F8FAFC; }
+
+        .client-title-text {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        .summary-count {
+            background: var(--bg-body);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--murinda-blue);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+            white-space: nowrap;
+        }
+
+        .client-detail-panel {
+            display: none;
+            padding: 10px 14px;
+            flex-direction: column;
+            gap: 6px;
+            border-top: 1px solid var(--border-color);
+            background: #FAFAFA;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 8px;
+            border-radius: 6px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+        }
+        .breakdown-row .unit-tag { color: var(--text-dark); font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .color-indicator-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+        /* Calendar Grid */
+        .calendar-wrapper {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            box-shadow: var(--shadow-subtle);
+            position: relative;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        .day-header {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--bg-body);
+            letter-spacing: 1px;
+        }
+
+        .day-header.sunday { color: var(--murinda-red); }
+
+        .day-cell {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            min-height: 150px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .day-cell:hover {
+            border-color: var(--murinda-blue);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+            z-index: 5;
+        }
+
+        .date-num {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            align-self: flex-end;
+        }
+        
+        .day-cell.holiday { background: #FFF5F5; border-color: #FFE4E6; }
+        .day-cell.holiday .date-num { color: var(--murinda-red); }
+        .holiday-label {
+            font-size: 0.65rem;
+            color: var(--murinda-red);
+            font-weight: 700;
+            text-align: right;
+            margin-top: 2px;
+        }
+
+        .items-stack { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; flex-grow: 1; overflow-y: auto; }
+        .items-stack::-webkit-scrollbar { width: 3px; }
+        .items-stack::-webkit-scrollbar-thumb { background: #CBD5E1; }
+
+        /* Chips Serial Number Premium Dinamis */
+        .serial-badge {
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: normal;
+            word-break: break-word;
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+        }
+        .serial-badge:hover {
+            filter: brightness(0.95);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Modal Dialog */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 25, 47, 0.6); backdrop-filter: blur(10px);
+            display: none; justify-content: center; align-items: center; z-index: 1000; opacity: 0;
+            transition: var(--transition);
+        }
+        .modal-wrapper {
+            background: var(--bg-surface); border-radius: var(--radius-lg); width: 90%; max-width: 550px;
+            padding: 35px; transform: scale(0.96) translateY(20px); transition: var(--transition);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        .modal-header-zone { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--bg-body); padding-bottom: 15px; }
+        .modal-main-title { font-size: 1.3rem; font-weight: 800; color: var(--murinda-blue); }
+        .btn-close-modal { background: var(--bg-body); border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 1.2rem; transition: var(--transition); }
+        .btn-close-modal:hover { background: var(--murinda-red); color: #FFF; }
+
+        .modal-grid-body { display: flex; flex-direction: column; gap: 12px; max-height: 60vh; overflow-y: auto; padding-right: 8px; }
+        .modal-grid-body::-webkit-scrollbar { width: 5px; }
+        .modal-grid-body::-webkit-scrollbar-thumb { background: var(--murinda-blue); border-radius: 10px; }
+
+        .info-card-row { background: var(--bg-body); padding: 12px 16px; border-radius: 8px; border-left: 3px solid var(--murinda-blue); }
+        .info-card-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; display: block; letter-spacing: 0.5px; }
+        .info-card-value { font-size: 1rem; color: var(--text-dark); font-weight: 600; }
+
+        .barcode-display-container { display: flex; flex-direction: column; align-items: center; background: #FFF; border: 2px dashed #CBD5E1; padding: 20px; border-radius: 8px; margin-top: 10px; }
+        
+        /* Loader Over Calendar */
+        .loader-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; flex-direction: column; z-index: 20; border-radius: var(--radius-lg);
+        }
+        .spinner { width: 40px; height: 40px; border: 4px solid var(--bg-body); border-top-color: var(--murinda-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Responsif */
+        @media (max-width: 1100px) {
+            .main-layout { grid-template-columns: 1fr; padding: 20px; }
+            .summary-card { position: static; }
+        }
+        @media (max-width: 850px) {
+            .topbar { flex-direction: column; height: auto; padding: 20px; gap: 20px; align-items: flex-start; }
+            .controls-zone { width: 100%; justify-content: space-between; }
+            .calendar-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .day-header { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Elegan -->
+    <div class="topbar">
+        <div class="brand-container">
+            <div class="brand-logo">
+                <img src="Murinda Logo.png" alt="Logo PT Murinda Sentra Baja">
+            </div>
+            <div class="brand-text-info">
+                <span class="comp-name">PT Murinda Sentra Baja</span>
+                <span class="sheet-title">Master Schedule</span>
+                <span class="location-tag">Kalijati, Subang</span>
+            </div>
+        </div>
+        
+        <div class="controls-zone">
+            <div class="live-status">
+                <div class="pulse-dot"></div>
+                <div class="refresh-text">Online data • Refresh in <span id="countdown">60</span>s</div>
+            </div>
+
+            <div class="dropdown-nav-zone">
+                <select id="monthSelect" class="elegant-select"></select>
+                <select id="yearSelect" class="elegant-select"></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- Sidebar Summary Bulanan Berdasarkan Client -->
+        <div class="summary-card">
+            <div class="summary-title">
+                📊 Summary Pengiriman
+            </div>
+            <div class="summary-list" id="summaryContainer">
+                <!-- Data Summary di-generate via JS -->
+            </div>
+        </div>
+
+        <!-- Main Calendar -->
+        <div class="calendar-wrapper">
+            <div class="loader-overlay" id="loader">
+                <div class="spinner"></div>
+                <h4 style="color: var(--murinda-blue);">Sinkronisasi Data...</h4>
+            </div>
+            <div class="calendar-grid" id="calendar"></div>
+        </div>
+    </div>
+
+    <!-- Modal Form -->
+    <div class="modal-overlay" id="itemModal">
+        <div class="modal-wrapper">
+            <div class="modal-header-zone">
+                <div class="modal-main-title">Rincian Unit</div>
+                <button class="btn-close-modal" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-grid-body" id="modalBody">
+                <!-- Rincian di-generate via JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwIN-kg3cjvdHV7pStMbRIpCJtQeo9j80ncjDPCZ5TosPcJaZPxpRrhUDkwzgVyor_gig/exec'; 
+        
+        let currentDate = new Date();
+        let deliveriesData = [];
+        let refreshTimer = 60;
+        let countdownInterval;
+
+        const publicHolidays = {
+            "2026-01-01": "Tahun Baru Masehi",
+            "2026-02-17": "Isra Mikraj",
+            "2026-03-03": "Hari Suci Nyepi",
+            "2026-03-20": "Idul Fitri",
+            "2026-03-21": "Idul Fitri",
+            "2026-04-03": "Wafat Yesus Kristus",
+            "2026-05-01": "Hari Buruh",
+            "2026-05-14": "Kenaikan Yesus Kristus",
+            "2026-05-27": "Idul Adha",
+            "2026-06-01": "Hari Lahir Pancasila",
+            "2026-06-16": "Tahun Baru Islam",
+            "2026-08-17": "Hari Kemerdekaan RI",
+            "2026-08-25": "Maulid Nabi",
+            "2026-12-25": "Hari Raya Natal"
+        };
+
+        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+        // Master Palet Warna Premium Terstruktur untuk Model-Model Utama
+        const premiumColorPalette = {
+            "PC200": { bg: "#FFF9E6", border: "#F5B041", text: "#B97700" },
+            "PC210": { bg: "#FEF3C7", border: "#F59E0B", text: "#92400E" },
+            "PC400": { bg: "#FFEDD5", border: "#EA580C", text: "#9A3412" },
+            "PC950": { bg: "#FEE2E2", border: "#EF4444", text: "#991B1B" },
+            "PC1250": { bg: "#FFFBEB", border: "#B45309", text: "#78350F" },
+            "STD": { bg: "#F0F9FF", border: "#0284C7", text: "#0369A1" },
+            "LG": { bg: "#F0FDF4", border: "#16A34A", text: "#15803D" },
+            "LR": { bg: "#FAF5FF", border: "#9333EA", text: "#7E22CE" },
+            "LR-KBB": { bg: "#F5F5F4", border: "#78716C", text: "#44403C" },
+            "LG-BARU": { bg: "#ECFDF5", border: "#10B981", text: "#065F46" }
+        };
+
+        // Generator Warna Otomatis (Real-time Fallback) jika ada Model baru ditambahkan di Spreadsheet
+        function getDynamicStyle(categoryName) {
+            const key = String(categoryName).toUpperCase().trim();
+            if (premiumColorPalette[key]) {
+                return premiumColorPalette[key];
+            }
+            
+            // Jika ada kode serial tak terduga (Misal: PC300, SH210, dsb), buat perpaduan warna pastel harmonis secara otomatis
+            let hash = 0;
+            for (let i = 0; i < key.length; i++) {
+                hash = key.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const hue = Math.abs(hash) % 360;
+            return {
+                bg: `hsl(${hue}, 85%, 96%)`,
+                border: `hsl(${hue}, 70%, 45%)`,
+                text: `hsl(${hue}, 80%, 25%)`
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            buildDropdownOptions();
+            setupEventListeners();
+            fetchData();
+            startAutoRefresh();
+        });
+
+        function buildDropdownOptions() {
+            const monthSelect = document.getElementById('monthSelect');
+            const yearSelect = document.getElementById('yearSelect');
+
+            monthNames.forEach((name, index) => {
+                let opt = document.createElement('option');
+                opt.value = index;
+                opt.innerText = name;
+                monthSelect.appendChild(opt);
+            });
+
+            const currentYear = new Date().getFullYear();
+            for (let y = currentYear - 2; y <= currentYear + 3; y++) {
+                let opt = document.createElement('option');
+                opt.value = y;
+                opt.innerText = y;
+                yearSelect.appendChild(opt);
+            }
+
+            monthSelect.value = currentDate.getMonth();
+            yearSelect.value = currentDate.getFullYear();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('monthSelect').addEventListener('change', (e) => {
+                currentDate.setMonth(parseInt(e.target.value));
+                renderCalendar();
+            });
+
+            document.getElementById('yearSelect').addEventListener('change', (e) => {
+                currentDate.setFullYear(parseInt(e.target.value));
+                renderCalendar();
+            });
+
+            document.getElementById('itemModal').addEventListener('click', function(e) {
+                if(e.target === this) closeModal();
+            });
+        }
+
+        function startAutoRefresh() {
+            countdownInterval = setInterval(() => {
+                refreshTimer--;
+                document.getElementById('countdown').innerText = refreshTimer;
+                
+                if (refreshTimer <= 0) {
+                    refreshTimer = 60;
+                    fetchData(true); 
+                }
+            }, 1000);
+        }
+
+        async function fetchData(isSilent = false) {
+            if(!isSilent) document.getElementById('loader').style.display = 'flex';
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL);
+                const data = await response.json();
+                deliveriesData = data.error ? [] : data;
+            } catch (err) {
+                console.error("Gagal sinkronisasi data:", err);
+            } finally {
+                if(!isSilent) document.getElementById('loader').style.display = 'none';
+                renderCalendar();
+            }
+        }
+
+        function getClientName(item) {
+            const clientKey = Object.keys(item).find(k => 
+                k.toLowerCase().includes('client') || 
+                k.toLowerCase().includes('customer') || 
+                k.toLowerCase().includes('nama')
+            );
+            return clientKey && item[clientKey] ? String(item[clientKey]).trim() : 'Lainnya';
+        }
+
+        function renderCalendar() {
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            document.getElementById('monthSelect').value = month;
+            document.getElementById('yearSelect').value = year;
+
+            // Map untuk summary real-time berbasis gabungan Client & Code Serial
+            let clientDataSummary = {};
+
+            if (window.innerWidth > 850) {
+                const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                days.forEach((day, index) => {
+                    const el = document.createElement('div');
+                    el.className = 'day-header';
+                    if(index === 0) el.classList.add('sunday'); 
+                    el.innerText = day;
+                    calendar.appendChild(el);
+                });
+            }
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            if (window.innerWidth > 850) {
+                for (let i = 0; i < firstDay; i++) {
+                    const empty = document.createElement('div');
+                    empty.className = 'day-cell'; empty.style.opacity = '0'; empty.style.pointerEvents = 'none';
+                    calendar.appendChild(empty);
+                }
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'day-cell';
+                
+                const currentDayOfWeek = new Date(year, month, i).getDay();
+                const dateString = `${year}-${String(month+1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                
+                if (currentDayOfWeek === 0 || publicHolidays[dateString]) {
+                    cell.classList.add('holiday');
+                }
+
+                const num = document.createElement('div');
+                num.className = 'date-num'; 
+                num.innerText = i;
+                cell.appendChild(num);
+
+                if (publicHolidays[dateString]) {
+                    const holLabel = document.createElement('div');
+                    holLabel.className = 'holiday-label';
+                    holLabel.innerText = publicHolidays[dateString];
+                    cell.appendChild(holLabel);
+                }
+
+                const container = document.createElement('div');
+                container.className = 'items-stack';
+
+                // Filter Item Berdasarkan Tanggal Pengiriman saat ini
+                const todaysItems = deliveriesData.filter(item => {
+                    const dateKey = Object.keys(item).find(k => k.toLowerCase().includes('delivery date') || k.toLowerCase().includes('tanggal'));
+                    if (dateKey && item[dateKey]) {
+                        const itemDate = new Date(item[dateKey]);
+                        return itemDate.getDate() === i && itemDate.getMonth() === month && itemDate.getFullYear() === year;
+                    }
+                    return false;
+                });
+
+                todaysItems.forEach(item => {
+                    const chip = document.createElement('div');
+                    
+                    const exactSerialKey = Object.keys(item).find(k => k.toLowerCase() === 'serial number');
+                    const codeSerialKey = Object.keys(item).find(k => k.toLowerCase() === 'code serial');
+
+                    const serialTextValue = exactSerialKey && item[exactSerialKey] ? item[exactSerialKey] : 'No Serial';
+                    
+                    // MEMBACA DATA CODE SERIAL SECARA REAL-TIME TANPA DI-HARDCODE LAGI
+                    const categoryGroup = codeSerialKey && item[codeSerialKey] ? String(item[codeSerialKey]).trim() : 'LAINNYA';
+
+                    chip.innerText = serialTextValue;
+                    chip.classList.add('serial-badge');
+
+                    // Ambil konfigurasi warna premium secara dinamis
+                    const styleConfig = getDynamicStyle(categoryGroup);
+                    chip.style.backgroundColor = styleConfig.bg;
+                    chip.style.borderLeftColor = styleConfig.border;
+                    chip.style.color = styleConfig.text;
+
+                    // Mengelompokkan data secara aman ke penampungan Summary Objek
+                    let clientName = getClientName(item);
+                    if (!clientDataSummary[clientName]) {
+                        clientDataSummary[clientName] = { _total: 0 };
+                    }
+                    clientDataSummary[clientName]._total += 1;
+                    clientDataSummary[clientName][categoryGroup] = (clientDataSummary[clientName][categoryGroup] || 0) + 1;
+                    
+                    chip.onclick = (e) => { e.stopPropagation(); openModal(item); };
+                    container.appendChild(chip);
+                });
+
+                cell.appendChild(container);
+                calendar.appendChild(cell);
+            }
+
+            // Render Ulang Widget Summary Accordion
+            renderClientSummaryWidget(clientDataSummary);
+        }
+
+        function renderClientSummaryWidget(summaryData) {
+            const container = document.getElementById('summaryContainer');
+            container.innerHTML = '';
+            
+            if (Object.keys(summaryData).length === 0) {
+                container.innerHTML = '<div style="color: #64748B; font-size: 0.9rem; font-style: italic; padding:10px;">Tidak ada jadwal di bulan ini.</div>';
+                return;
+            }
+
+            for (const [clientName, details] of Object.entries(summaryData)) {
+                const itemWrapper = document.createElement('div');
+                itemWrapper.className = 'client-collapse-item';
+
+                const headerBtn = document.createElement('button');
+                headerBtn.className = 'client-header-btn';
+                headerBtn.innerHTML = `
+                    <span class="client-title-text" title="${clientName}">🏢 ${clientName}</span>
+                    <div class="summary-count">${details._total} Unit</div>
+                `;
+
+                const detailPanel = document.createElement('div');
+                detailPanel.className = 'client-detail-panel';
+
+                let breakdownHtml = '';
+                for (const [unitType, qty] of Object.entries(details)) {
+                    if(unitType === '_total') continue; 
+                    
+                    const dotStyle = getDynamicStyle(unitType);
+                    breakdownHtml += `
+                        <div class="breakdown-row">
+                            <span class="unit-tag">
+                                <span class="color-indicator-dot" style="background-color: ${dotStyle.border}"></span>
+                                Tipe ${unitType}
+                            </span>
+                            <span style="font-weight: 800; color: var(--text-dark);">${qty} Unit</span>
+                        </div>
+                    `;
+                }
+                detailPanel.innerHTML = breakdownHtml;
+
+                headerBtn.addEventListener('click', () => {
+                    const isOpen = detailPanel.style.display === 'flex';
+                    detailPanel.style.display = isOpen ? 'none' : 'flex';
+                    headerBtn.style.background = isOpen ? 'var(--bg-surface)' : '#F1F5F9';
+                });
+
+                itemWrapper.appendChild(headerBtn);
+                itemWrapper.appendChild(detailPanel);
+                container.appendChild(itemWrapper);
+            }
+        }
+
+        function openModal(dataObj) {
+            const modal = document.getElementById('itemModal');
+            const body = document.getElementById('modalBody');
+            body.innerHTML = '';
+
+            const snKey = Object.keys(dataObj).find(k => k.toLowerCase() === 'serial number');
+            const unKey = Object.keys(dataObj).find(k => k.toLowerCase() === 'unit number');
+            
+            const snVal = snKey ? dataObj[snKey] : '';
+            const unVal = unKey ? dataObj[unKey] : '';
+            
+            let combinedBarcode = (snVal && unVal) ? `${snVal}/${unVal}` : (snVal || 'N/A');
+
+            body.innerHTML += `
+                <div class="info-card-row" style="background: var(--bg-surface); border-left: 4px solid var(--murinda-red);">
+                    <span class="info-card-label" style="text-align:center;">KODE BATANG</span>
+                    <div class="info-card-value" style="text-align: center; font-size: 1.1rem; color: var(--murinda-blue); margin-bottom: 10px;">
+                        ${combinedBarcode}
+                    </div>
+                    <div class="barcode-display-container">
+                        <svg class="barcode-render-target" data-code="${combinedBarcode}"></svg>
+                    </div>
+                </div>
+            `;
+
+            const hiddenKeys = ['no.', 'no', 'periode bulan', 'bulan', 'code serial', 'number', 'search', 'gambar', 'image'];
+
+            for (let key in dataObj) {
+                if (!dataObj[key]) continue; 
+
+                let keyLower = key.toLowerCase().trim();
+                if (hiddenKeys.includes(keyLower)) continue; 
+
+                let displayLabel = key;
+                let finalValue = dataObj[key];
+                
+                if (keyLower.includes('status delivery') || keyLower.includes('date') || keyLower.includes('tanggal')) {
+                    const parsedDate = new Date(finalValue);
+                    if (!isNaN(parsedDate) && typeof finalValue !== 'number') {
+                        finalValue = parsedDate.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    }
+                }
+
+                body.innerHTML += `
+                    <div class="info-card-row">
+                        <span class="info-card-label">${displayLabel}</span>
+                        <div class="info-card-value">${finalValue}</div>
+                    </div>
+                `;
+            }
+
+            modal.style.display = 'flex';
+            
+            setTimeout(() => {
+                const target = document.querySelector('.barcode-render-target');
+                const codeValue = target.getAttribute('data-code');
+                
+                if (codeValue !== 'N/A') {
+                    JsBarcode(target, codeValue, {
+                        format: "CODE128", width: 2, height: 50, displayValue: false, background: "#FFFFFF", lineColor: "#0F172A", margin: 0
+                    });
+                }
+                modal.style.opacity = '1';
+                modal.querySelector('.modal-wrapper').style.transform = 'scale(1) translateY(0)';
+            }, 50);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('itemModal');
+            modal.style.opacity = '0';
+            modal.querySelector('.modal-wrapper').style.transform = 'scale(0.96) translateY(20px)';
+            setTimeout(() => { modal.style.display = 'none'; }, 300); 
+        }
+    </script>
+</body>
+</html>
