@@ -78,18 +78,17 @@
             padding: 16px;
         }
 
-        .login-wrapper { transform: scale(1); transition: transform 0.3s ease; }
-        @media (max-width: 768px) { .login-wrapper { transform: scale(0.8); } }
-        @media (max-width: 500px) { .login-wrapper { transform: scale(0.55); } }
+        .login-wrapper { transform: scale(1); transition: transform 0.3s ease; width: 100%; display: flex; justify-content: center;}
 
         .login-card {
             position: relative;
-            width: 800px;
-            height: 380px;
+            width: 100%;
+            max-width: 800px;
+            min-height: 380px;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            padding-left: 50px;
+            padding: 40px 50px;
             
             /* Glassmorphism Styling */
             background: rgba(255, 255, 255, 0.25);
@@ -122,23 +121,11 @@
 
         .login-card .circle .logo_img { max-width: 180px; z-index: 12; transition: 0.4s ease-in-out; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); }
 
-        .login-card:hover .circle::before {
-            width: 100%; height: 100%;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 15px 50px rgba(31, 38, 135, 0.2), inset 0 2px 15px rgba(255,255,255,1);
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-
-        .login-card:hover .circle .logo_img { opacity: 0; transform: scale(0.5); }
-
         .login-card .content {
             position: relative; z-index: 10; max-width: 420px;
             opacity: 0; visibility: hidden; transform: translateX(-50px);
             transition: 0.5s ease-in-out;
         }
-
-        .login-card:hover .content { opacity: 1; visibility: visible; transform: translateX(0); transition-delay: 0.3s; }
 
         .login-card .content h2 { color: var(--murinda-blue); font-size: 1.8rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(255,255,255,0.8); }
         .login-card .content p { color: var(--text-dark); font-size: 0.8rem; margin-bottom: 20px; opacity: 0.95; line-height: 1.5; font-weight: 600; }
@@ -171,7 +158,19 @@
             z-index: 11; transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none;
         }
 
-        .login-card:hover .factory_img { top: 50%; left: 75%; transform: translate(-50%, -50%) scale(1); transition-delay: 0.2s; }
+        /* Desktop Hover Effects */
+        @media (min-width: 851px) {
+            .login-card:hover .circle::before {
+                width: 100%; height: 100%;
+                border-radius: 30px;
+                background: rgba(255, 255, 255, 0.4);
+                box-shadow: 0 15px 50px rgba(31, 38, 135, 0.2), inset 0 2px 15px rgba(255,255,255,1);
+                border: 1px solid rgba(255,255,255,0.8);
+            }
+            .login-card:hover .circle .logo_img { opacity: 0; transform: scale(0.5); }
+            .login-card:hover .content { opacity: 1; visibility: visible; transform: translateX(0); transition-delay: 0.3s; }
+            .login-card:hover .factory_img { top: 50%; left: 75%; transform: translate(-50%, -50%) scale(1); transition-delay: 0.2s; }
+        }
 
         /* --- GLOBAL GLASS CLASSES --- */
         .glass-panel {
@@ -279,7 +278,18 @@
         .color-indicator-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
 
         /* Calendar Wrapper */
-        .calendar-wrapper { border-radius: var(--radius-lg); position: relative; }
+        .calendar-wrapper { 
+            border-radius: var(--radius-lg); 
+            position: relative; 
+            overflow-x: auto; /* Memungkinkan horizontal scroll di mobile */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Custom Scrollbar untuk Calendar Wrap di Mobile */
+        .calendar-wrapper::-webkit-scrollbar { height: 8px; }
+        .calendar-wrapper::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.2); border-radius: 10px; margin: 10px; }
+        .calendar-wrapper::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.5); border-radius: 10px; }
+        .calendar-wrapper::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.8); }
         
         .calendar-header-grid {
             display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px;
@@ -289,12 +299,17 @@
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border-bottom: 2px solid rgba(255,255,255,0.5);
             border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            min-width: 800px; /* Force minimum width untuk scroll di HP */
         }
 
         .day-header { text-align: center; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: var(--murinda-blue); letter-spacing: 1px; }
         .day-header.sunday { color: var(--murinda-red); }
 
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; padding: 15px 30px 30px 30px; }
+        .calendar-grid { 
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; 
+            padding: 15px 30px 30px 30px; 
+            min-width: 800px; /* Force minimum width untuk scroll di HP */
+        }
 
         .day-cell { min-height: 150px; padding: 12px; display: flex; flex-direction: column; }
         .date-num { font-size: 1.2rem; font-weight: 800; color: var(--text-dark); align-self: flex-end; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
@@ -352,12 +367,35 @@
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.5); border-top-color: var(--murinda-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        @media (max-width: 1100px) { .main-layout { grid-template-columns: 1fr; padding: 20px; } .summary-card { position: static; margin-bottom: 20px;} .topbar { margin-bottom: 10px;} }
+        /* ====== RESPONSIVE RULES ====== */
+        @media (max-width: 1100px) { 
+            .main-layout { grid-template-columns: 1fr; padding: 20px; } 
+            .summary-card { position: static; margin-bottom: 20px;} 
+            .topbar { margin-bottom: 10px;} 
+        }
+
         @media (max-width: 850px) {
-            .topbar { flex-direction: column; height: auto; padding: 20px; gap: 20px; align-items: flex-start; position: static; }
-            .controls-zone { width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-            .calendar-header-grid { display: none; }
-            .calendar-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px 0; }
+            /* Fix Login Card for Mobile */
+            .login-card { 
+                flex-direction: column; justify-content: center; text-align: center;
+                padding: 40px 20px; border-radius: 20px;
+            }
+            .login-card .circle { position: static; width: 120px; height: 120px; margin: 0 auto 20px auto; }
+            .login-card .circle::before { width: 120px; height: 120px; }
+            .login-card .content { opacity: 1; visibility: visible; transform: none; padding-bottom: 10px;}
+            .login-card .factory_img { display: none; }
+            
+            /* Fix Topbar Stack */
+            .topbar { flex-direction: column; height: auto; padding: 20px; gap: 15px; align-items: center; border-radius: 0 0 20px 20px; }
+            .controls-zone { width: 100%; flex-direction: column; justify-content: center; gap: 12px; }
+            .time-display, .live-status, .dropdown-nav-zone { width: 100%; justify-content: center; }
+            
+            /* Fix Grid Layout (Tetap 7 Kolom namun horizontal scroll) */
+            .main-layout { padding: 15px; gap: 15px; }
+            .calendar-header-grid { padding: 15px 15px 10px 15px; top: 0;}
+            .calendar-grid { padding: 10px 15px 20px 15px; gap: 8px;}
+            .day-cell { min-height: 120px; padding: 8px; }
+            .modal-wrapper { width: 95%; padding: 25px 20px; }
         }
     </style>
 </head>
@@ -604,31 +642,29 @@
 
             let clientDataSummary = {};
 
-            if (window.innerWidth > 850) {
-                const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                days.forEach((day, index) => {
-                    const el = document.createElement('div');
-                    el.className = 'day-header';
-                    if(index === 0) el.classList.add('sunday'); 
-                    el.innerText = day;
-                    calendarHeader.appendChild(el);
-                });
-            }
+            // Render Header Hari selalu dimunculkan (termasuk di mobile agar bisa digeser horizontal)
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            days.forEach((day, index) => {
+                const el = document.createElement('div');
+                el.className = 'day-header';
+                if(index === 0) el.classList.add('sunday'); 
+                el.innerText = day;
+                calendarHeader.appendChild(el);
+            });
 
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-            if (window.innerWidth > 850) {
-                for (let i = 0; i < firstDay; i++) {
-                    const empty = document.createElement('div');
-                    empty.className = 'day-cell'; empty.style.opacity = '0'; empty.style.pointerEvents = 'none';
-                    calendarDays.appendChild(empty);
-                }
+            // Render offset cells awal bulan
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'day-cell'; empty.style.opacity = '0'; empty.style.pointerEvents = 'none';
+                calendarDays.appendChild(empty);
             }
 
             for (let i = 1; i <= daysInMonth; i++) {
                 const cell = document.createElement('div');
-                // TAMBAHKAN KELAS EFEK GRADASI HOVER DISINI
+                // KELAS EFEK GRADASI HOVER
                 cell.className = 'day-cell glass-hover-item';
                 
                 const currentDayOfWeek = new Date(year, month, i).getDay();
@@ -729,7 +765,7 @@
 
             for (const [clientName, details] of Object.entries(summaryData)) {
                 const itemWrapper = document.createElement('div');
-                // TAMBAHKAN KELAS EFEK GRADASI HOVER DISINI
+                // KELAS EFEK GRADASI HOVER
                 itemWrapper.className = 'client-collapse-item glass-hover-item';
 
                 const headerBtn = document.createElement('button');
