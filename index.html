@@ -277,49 +277,100 @@
         .breakdown-row .unit-tag { color: var(--text-dark); font-weight: 800; display: flex; align-items: center; gap: 6px; }
         .color-indicator-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
 
-        /* Calendar Wrapper */
-        .calendar-wrapper { 
-            border-radius: var(--radius-lg); 
-            position: relative; 
-            overflow-x: auto; /* Memungkinkan horizontal scroll di mobile */
-            -webkit-overflow-scrolling: touch;
+        /* Calendar Wrapper: kartu dengan tinggi terbatas (tidak memanjang mengikuti isi bulan) + scroll internal */
+        .calendar-wrapper {
+            border-radius: var(--radius-lg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        /* Custom Scrollbar untuk Calendar Wrap di Mobile */
-        .calendar-wrapper::-webkit-scrollbar { height: 8px; }
-        .calendar-wrapper::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.2); border-radius: 10px; margin: 10px; }
-        .calendar-wrapper::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.5); border-radius: 10px; }
-        .calendar-wrapper::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.8); }
-        
+        .calendar-hint {
+            flex-shrink: 0;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            padding: 10px 24px;
+            background: rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+        }
+
+        /* Area scroll internal: header hari tetap (sticky) di dalam area ini saja, sehingga tidak pernah menabrak baris tanggal di bawahnya */
+        .calendar-scroll-area {
+            flex: 1;
+            overflow: auto;
+            max-height: 66vh;
+            -webkit-overflow-scrolling: touch;
+        }
+        .calendar-scroll-area::-webkit-scrollbar { width: 8px; height: 8px; }
+        .calendar-scroll-area::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        .calendar-scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.6); border-radius: 10px; }
+        .calendar-scroll-area::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.9); }
+
         .calendar-header-grid {
             display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px;
-            position: sticky; top: 100px; z-index: 20;
-            padding: 25px 30px 15px 30px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border-bottom: 2px solid rgba(255,255,255,0.5);
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            position: sticky; top: 0; z-index: 15;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.62);
+            backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border-bottom: 1px solid rgba(255,255,255,0.75);
+            box-shadow: 0 6px 16px rgba(31,38,135,0.06);
             min-width: 800px; /* Force minimum width untuk scroll di HP */
         }
 
-        .day-header { text-align: center; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: var(--murinda-blue); letter-spacing: 1px; }
-        .day-header.sunday { color: var(--murinda-red); }
+        .day-header {
+            text-align: center; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
+            color: var(--murinda-blue); letter-spacing: 0.8px;
+            background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 10px;
+            padding: 10px 4px;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.9);
+        }
+        .day-header.sunday { color: var(--murinda-red); background: rgba(255, 210, 210, 0.45); }
 
         .calendar-grid { 
             display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; 
-            padding: 15px 30px 30px 30px; 
+            padding: 16px 24px 24px 24px; 
             min-width: 800px; /* Force minimum width untuk scroll di HP */
         }
 
-        .day-cell { min-height: 150px; padding: 12px; display: flex; flex-direction: column; }
-        .date-num { font-size: 1.2rem; font-weight: 800; color: var(--text-dark); align-self: flex-end; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
+        /* Sel hari: tinggi SERAGAM & TETAP, tidak lagi ikut memanjang walau jadwal hari itu banyak */
+        .day-cell {
+            height: 132px; padding: 10px; display: flex; flex-direction: column;
+            overflow: hidden; position: relative;
+        }
+        .day-cell.has-items { cursor: pointer; }
+        .day-cell.empty-day .date-num { opacity: 0.4; }
+        .day-cell.empty-day:hover { transform: none; box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.05), inset 0 2px 4px rgba(255, 255, 255, 0.6); }
+        .day-cell.empty-day:hover::before { background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.2)); }
+        .date-num { font-size: 1.1rem; font-weight: 800; color: var(--text-dark); align-self: flex-end; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
         .day-cell.holiday { background: rgba(255, 235, 235, 0.4); }
         .day-cell.holiday .date-num { color: var(--murinda-red); }
-        .holiday-label { font-size: 0.65rem; color: var(--murinda-red); font-weight: 800; text-align: right; margin-top: 2px; }
+        .day-cell.is-today { box-shadow: 0 0 0 2px var(--murinda-blue), 0 4px 16px rgba(31,38,135,0.12); }
+        .holiday-label { font-size: 0.6rem; color: var(--murinda-red); font-weight: 800; text-align: right; line-height: 1.2; }
 
-        .items-stack { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; overflow-y: auto; }
-        .items-stack::-webkit-scrollbar { width: 3px; }
-        .items-stack::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.8); }
+        /* Ringkasan padat di dalam sel: badge jumlah + titik kategori + status mini. Detail lengkap muncul saat sel diklik. */
+        .day-summary { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+        .unit-count-badge {
+            width: fit-content; font-size: 0.7rem; font-weight: 800; color: var(--murinda-blue);
+            background: rgba(255,255,255,0.65); padding: 3px 9px; border-radius: 20px;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,1); border: 1px solid rgba(255,255,255,0.8);
+        }
+        .category-dot-row { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+        .category-dot { width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 4px rgba(0,0,0,0.15); flex-shrink: 0; }
+        .category-dot-more { font-size: 0.6rem; font-weight: 800; color: var(--text-muted); }
+        .status-mini-row { display: flex; gap: 8px; font-size: 0.65rem; font-weight: 800; flex-wrap: wrap; }
+        .mini-status.sent { color: #047857; }
+        .mini-status.pending { color: #B45309; }
+        .mini-status.stock { color: #475569; }
+
+        .expand-hint {
+            position: absolute; bottom: 6px; right: 8px; font-size: 0.9rem;
+            color: var(--murinda-blue); opacity: 0.35; line-height: 1;
+        }
 
         /* Chips Serial Number Liquid Glass */
         .serial-badge {
@@ -363,6 +414,11 @@
         .barcode-display-container { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.6); border: 2px dashed rgba(255,255,255,0.9); padding: 20px; border-radius: 12px; margin-top: 10px; }
         .barcode-render-target { width: 100%; max-width: 350px; height: auto; display: block; }
 
+        /* Modal Detail Hari: menampilkan seluruh unit pada tanggal yang diklik, dalam grid chip ringkas */
+        .modal-wrapper.wide { max-width: 760px; }
+        #dayModalTitle { font-size: 1.05rem; }
+        .modal-grid-body.day-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; align-content: start; }
+
         .loader-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.4); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; flex-direction: column; z-index: 30; border-radius: var(--radius-lg); }
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.5); border-top-color: var(--murinda-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -392,10 +448,17 @@
             
             /* Fix Grid Layout (Tetap 7 Kolom namun horizontal scroll) */
             .main-layout { padding: 15px; gap: 15px; }
-            .calendar-header-grid { padding: 15px 15px 10px 15px; top: 0;}
-            .calendar-grid { padding: 10px 15px 20px 15px; gap: 8px;}
-            .day-cell { min-height: 120px; padding: 8px; }
+            .calendar-hint { padding: 8px 15px; font-size: 0.68rem; }
+            .calendar-scroll-area { max-height: 60vh; }
+            .calendar-header-grid { padding: 12px 15px; }
+            .day-header { font-size: 0.68rem; padding: 8px 3px; }
+            .calendar-grid { padding: 10px 15px 18px 15px; gap: 8px;}
+            .day-cell { height: 108px; padding: 8px; }
+            .unit-count-badge { font-size: 0.62rem; padding: 2px 7px; }
+            .status-mini-row { font-size: 0.58rem; gap: 6px; }
             .modal-wrapper { width: 95%; padding: 25px 20px; }
+            .modal-wrapper.wide { max-width: 95%; }
+            .modal-grid-body.day-list { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
         }
     </style>
 </head>
@@ -475,8 +538,22 @@
                 <div class="spinner"></div>
                 <h4 style="color: var(--murinda-blue); font-weight:800; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">Sinkronisasi Data...</h4>
             </div>
-            <div class="calendar-header-grid" id="calendarHeader"></div>
-            <div class="calendar-grid" id="calendarDays"></div>
+            <div class="calendar-hint">💡 Klik tanggal yang memiliki jadwal untuk melihat rincian lengkap</div>
+            <div class="calendar-scroll-area">
+                <div class="calendar-header-grid" id="calendarHeader"></div>
+                <div class="calendar-grid" id="calendarDays"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="dayModal">
+        <div class="modal-wrapper glass-panel wide">
+            <div class="modal-header-zone">
+                <div class="modal-main-title" id="dayModalTitle">Jadwal Pengiriman</div>
+                <button class="btn-close-modal" onclick="closeDayModal()">✕</button>
+            </div>
+            <div class="modal-grid-body day-list" id="dayModalBody">
+            </div>
         </div>
     </div>
 
@@ -599,6 +676,12 @@
             document.getElementById('itemModal').addEventListener('click', function(e) {
                 if(e.target === this) closeModal();
             });
+            document.getElementById('dayModal').addEventListener('click', function(e) {
+                if(e.target === this) closeDayModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { closeModal(); closeDayModal(); }
+            });
         }
 
         function startAutoRefresh() {
@@ -654,6 +737,7 @@
 
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
 
             // Render offset cells awal bulan
             for (let i = 0; i < firstDay; i++) {
@@ -671,6 +755,9 @@
                 const dateString = `${year}-${String(month+1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
                 
                 if (currentDayOfWeek === 0 || publicHolidays[dateString]) cell.classList.add('holiday');
+                if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    cell.classList.add('is-today');
+                }
 
                 const num = document.createElement('div');
                 num.className = 'date-num'; num.innerText = i;
@@ -682,9 +769,6 @@
                     cell.appendChild(holLabel);
                 }
 
-                const container = document.createElement('div');
-                container.className = 'items-stack';
-
                 const todaysItems = deliveriesData.filter(item => {
                     const dateKey = Object.keys(item).find(k => k.toLowerCase().includes('delivery date') || k.toLowerCase().includes('tanggal'));
                     if (dateKey && item[dateKey]) {
@@ -694,60 +778,78 @@
                     return false;
                 });
 
-                todaysItems.forEach(item => {
-                    const chip = document.createElement('div');
-                    chip.classList.add('serial-badge');
-                    
-                    const exactSerialKey = Object.keys(item).find(k => k.toLowerCase() === 'serial number');
-                    const codeSerialKey = Object.keys(item).find(k => k.toLowerCase() === 'code serial');
-                    const poKey = Object.keys(item).find(k => k.toLowerCase().includes('po'));
-                    const statusKey = Object.keys(item).find(k => k.toLowerCase() === 'status delivery' || k.toLowerCase().includes('status'));
+                // Ringkasan singkat saja yang tampil di sel (tidak lagi daftar penuh) agar tinggi sel tetap seragam
+                if (todaysItems.length > 0) {
+                    cell.classList.add('has-items');
 
-                    const serialTextValue = exactSerialKey && item[exactSerialKey] ? item[exactSerialKey] : 'No Serial';
-                    const categoryGroup = codeSerialKey && item[codeSerialKey] ? String(item[codeSerialKey]).trim() : 'LAINNYA';
-                    
-                    const poVal = poKey && item[poKey] ? String(item[poKey]).trim() : '';
-                    const statusVal = statusKey && item[statusKey] ? String(item[statusKey]).trim() : '';
+                    let sentCount = 0, pendingCount = 0, stockCount = 0;
+                    const categoryMap = new Map();
 
-                    let statusHtml = '';
-                    
-                    if (statusVal && statusVal !== '-' && statusVal !== '0' && statusVal !== 'undefined' && statusVal !== 'null') {
-                        statusHtml = `
-                            <span class="status-badge sent">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                Terkirim
-                            </span>`;
-                    } 
-                    else {
-                        if (!poVal || poVal === '-' || poVal === '0' || poVal === 'undefined' || poVal === 'null') {
-                            statusHtml = '<span class="status-badge stock">Stock</span>';
-                        } else {
-                            statusHtml = '<span class="status-badge pending">Pending</span>';
-                        }
+                    todaysItems.forEach(item => {
+                        const codeSerialKey = Object.keys(item).find(k => k.toLowerCase() === 'code serial');
+                        const categoryGroup = codeSerialKey && item[codeSerialKey] ? String(item[codeSerialKey]).trim() : 'LAINNYA';
+
+                        const status = getItemStatus(item);
+                        if (status === 'sent') sentCount++;
+                        else if (status === 'pending') pendingCount++;
+                        else stockCount++;
+
+                        if (!categoryMap.has(categoryGroup)) categoryMap.set(categoryGroup, getDynamicStyle(categoryGroup).border);
+
+                        let clientName = getClientName(item);
+                        if (!clientDataSummary[clientName]) clientDataSummary[clientName] = { _total: 0 };
+                        clientDataSummary[clientName]._total += 1;
+                        clientDataSummary[clientName][categoryGroup] = (clientDataSummary[clientName][categoryGroup] || 0) + 1;
+                    });
+
+                    const summary = document.createElement('div');
+                    summary.className = 'day-summary';
+
+                    const countBadge = document.createElement('div');
+                    countBadge.className = 'unit-count-badge';
+                    countBadge.innerText = `${todaysItems.length} Unit`;
+                    summary.appendChild(countBadge);
+
+                    const dotsRow = document.createElement('div');
+                    dotsRow.className = 'category-dot-row';
+                    const catEntries = Array.from(categoryMap.entries());
+                    const maxDots = 5;
+                    catEntries.slice(0, maxDots).forEach(([cat, color]) => {
+                        const dot = document.createElement('span');
+                        dot.className = 'category-dot';
+                        dot.style.background = color;
+                        dot.title = cat;
+                        dotsRow.appendChild(dot);
+                    });
+                    if (catEntries.length > maxDots) {
+                        const more = document.createElement('span');
+                        more.className = 'category-dot-more';
+                        more.innerText = `+${catEntries.length - maxDots}`;
+                        dotsRow.appendChild(more);
                     }
+                    summary.appendChild(dotsRow);
 
-                    chip.innerHTML = `
-                        <div class="serial-title">${serialTextValue}</div>
-                        ${statusHtml}
-                    `;
+                    const statusRow = document.createElement('div');
+                    statusRow.className = 'status-mini-row';
+                    let statusParts = [];
+                    if (sentCount > 0) statusParts.push(`<span class="mini-status sent">✓ ${sentCount}</span>`);
+                    if (pendingCount > 0) statusParts.push(`<span class="mini-status pending">⏳ ${pendingCount}</span>`);
+                    if (stockCount > 0) statusParts.push(`<span class="mini-status stock">◇ ${stockCount}</span>`);
+                    statusRow.innerHTML = statusParts.join('');
+                    summary.appendChild(statusRow);
 
-                    const styleConfig = getDynamicStyle(categoryGroup);
-                    // Warna border-left dinamis sesuai tipe untuk membedakan
-                    chip.style.borderLeft = `4px solid ${styleConfig.border}`;
-                    chip.style.color = styleConfig.text;
+                    cell.appendChild(summary);
 
-                    let clientName = getClientName(item);
-                    if (!clientDataSummary[clientName]) clientDataSummary[clientName] = { _total: 0 };
-                    clientDataSummary[clientName]._total += 1;
-                    clientDataSummary[clientName][categoryGroup] = (clientDataSummary[clientName][categoryGroup] || 0) + 1;
-                    
-                    chip.onclick = (e) => { e.stopPropagation(); openModal(item); };
-                    container.appendChild(chip);
-                });
+                    const chevron = document.createElement('div');
+                    chevron.className = 'expand-hint';
+                    chevron.innerHTML = '⌄';
+                    cell.appendChild(chevron);
 
-                cell.appendChild(container);
+                    cell.addEventListener('click', () => openDayModal(i, month, year, todaysItems));
+                } else {
+                    cell.classList.add('empty-day');
+                }
+
                 calendarDays.appendChild(cell);
             }
 
@@ -804,6 +906,86 @@
                 itemWrapper.appendChild(detailPanel);
                 container.appendChild(itemWrapper);
             }
+        }
+
+        function getItemStatus(item) {
+            const poKey = Object.keys(item).find(k => k.toLowerCase().includes('po'));
+            const statusKey = Object.keys(item).find(k => k.toLowerCase() === 'status delivery' || k.toLowerCase().includes('status'));
+            const poVal = poKey && item[poKey] ? String(item[poKey]).trim() : '';
+            const statusVal = statusKey && item[statusKey] ? String(item[statusKey]).trim() : '';
+
+            if (statusVal && statusVal !== '-' && statusVal !== '0' && statusVal !== 'undefined' && statusVal !== 'null') {
+                return 'sent';
+            }
+            if (!poVal || poVal === '-' || poVal === '0' || poVal === 'undefined' || poVal === 'null') {
+                return 'stock';
+            }
+            return 'pending';
+        }
+
+        function buildSerialChip(item) {
+            const chip = document.createElement('div');
+            chip.classList.add('serial-badge');
+
+            const exactSerialKey = Object.keys(item).find(k => k.toLowerCase() === 'serial number');
+            const codeSerialKey = Object.keys(item).find(k => k.toLowerCase() === 'code serial');
+            const categoryGroup = codeSerialKey && item[codeSerialKey] ? String(item[codeSerialKey]).trim() : 'LAINNYA';
+            const serialTextValue = exactSerialKey && item[exactSerialKey] ? item[exactSerialKey] : 'No Serial';
+
+            const status = getItemStatus(item);
+            let statusHtml = '';
+            if (status === 'sent') {
+                statusHtml = `
+                    <span class="status-badge sent">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Terkirim
+                    </span>`;
+            } else if (status === 'stock') {
+                statusHtml = '<span class="status-badge stock">Stock</span>';
+            } else {
+                statusHtml = '<span class="status-badge pending">Pending</span>';
+            }
+
+            chip.innerHTML = `
+                <div class="serial-title">${serialTextValue}</div>
+                ${statusHtml}
+            `;
+
+            const styleConfig = getDynamicStyle(categoryGroup);
+            // Warna border-left dinamis sesuai tipe untuk membedakan
+            chip.style.borderLeft = `4px solid ${styleConfig.border}`;
+            chip.style.color = styleConfig.text;
+
+            chip.onclick = (e) => { e.stopPropagation(); openModal(item); };
+            return chip;
+        }
+
+        function openDayModal(day, month, year, items) {
+            const modal = document.getElementById('dayModal');
+            const body = document.getElementById('dayModalBody');
+            const titleEl = document.getElementById('dayModalTitle');
+            body.innerHTML = '';
+
+            const dateObj = new Date(year, month, day);
+            const formattedDate = dateObj.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            titleEl.innerText = `${formattedDate} • ${items.length} Unit`;
+
+            items.forEach(item => body.appendChild(buildSerialChip(item)));
+
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modal.querySelector('.modal-wrapper').style.transform = 'scale(1) translateY(0)';
+            }, 20);
+        }
+
+        function closeDayModal() {
+            const modal = document.getElementById('dayModal');
+            modal.style.opacity = '0';
+            modal.querySelector('.modal-wrapper').style.transform = 'scale(0.96) translateY(20px)';
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
         }
 
         function openModal(dataObj) {
