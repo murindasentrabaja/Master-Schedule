@@ -2,15 +2,15 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#D3EDE7">
 <title>Jadwal Pengiriman | PT Murinda Sentra Baja</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 <style>
 :root{--ink:#0F2438;--ink2:#34465A;--muted:#6B7A8C;--line:rgba(15,36,56,.1);--red:#D90429;--sent:#0E9F6E;--pending:#D97706;--stock:#64748B;--sh:0 1px 2px rgba(15,36,56,.05),0 14px 34px -14px rgba(15,36,56,.18)}
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);min-height:100vh;font-variant-numeric:tabular-nums;background:radial-gradient(900px 520px at 6% -8%,#dce8fb,transparent 62%),radial-gradient(800px 480px at 100% 0,#fbe3e8,transparent 58%),#F4F6FA;background-attachment:fixed}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);min-height:100vh;font-variant-numeric:tabular-nums;background:radial-gradient(900px 520px at 6% -8%,#dce8fb,transparent 62%),radial-gradient(800px 480px at 100% 0,#fbe3e8,transparent 58%),#F4F6FA;background-attachment:fixed}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid #2563EB;outline-offset:2px}
@@ -177,7 +177,7 @@ h1{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
 
 /* Laporan PDF */
 #report{display:none}
-.rp{font-family:'Plus Jakarta Sans',sans-serif;color:#0F2438;font-size:9pt}
+.rp{font-family:'Inter',sans-serif;color:#0F2438;font-size:9pt}
 .rp-head{position:relative;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;padding-bottom:12px;border-bottom:1.5px solid #0F2438}
 .rp-head::after{content:"";position:absolute;left:0;bottom:-1.5px;width:70px;height:3.5px;background:#D90429}
 .rp-brand{display:flex;gap:12px;align-items:center}.rp-brand img{height:44px}
@@ -207,13 +207,155 @@ h1{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .rs.sent{background:#DCF5EA;color:#087A55}.rs.pending{background:#FDF0D5;color:#9A5B05}.rs.stock{background:#EDF0F4;color:#475569}
 .rp-sign{margin-top:16px;padding-top:8px;border-top:1px solid #E2E8F0;font-size:7.5pt;color:#64748B}
 @page{size:A4 landscape;margin:12mm 12mm 16mm;
- @bottom-left{content:"PT Murinda Sentra Baja, Master Schedule Pengiriman";font:7.5pt 'Plus Jakarta Sans',sans-serif;color:#64748B}
- @bottom-right{content:"Halaman " counter(page) " dari " counter(pages);font:7.5pt 'Plus Jakarta Sans',sans-serif;color:#64748B}}
+ @bottom-left{content:"PT Murinda Sentra Baja, Master Schedule Pengiriman";font:7.5pt 'Inter',sans-serif;color:#64748B}
+ @bottom-right{content:"Halaman " counter(page) " dari " counter(pages);font:7.5pt 'Inter',sans-serif;color:#64748B}}
 @media print{html,body{background:#fff!important}#app,.overlay,#toast{display:none!important}#report{display:block}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Tema Wonderful Indonesia + Liquid Glass ===== */
+:root{--ink:#12323B;--ink2:#2F5059;--muted:#6C8790;--line:rgba(18,50,59,.1);--red:#D9435E;--sent:#12A37F;--pending:#E39A2D;--teal:#1E9C9A;--tg:linear-gradient(135deg,#2BB7AA,#0F6F78);--gl:linear-gradient(120deg,rgba(255,255,255,.55),rgba(255,255,255,.14) 34%,rgba(255,255,255,.3));--ed:inset 0 1px 1px rgba(255,255,255,.95),inset 0 -1px 1px rgba(255,255,255,.4),inset 0 0 20px rgba(255,255,255,.28);--sh:0 20px 44px -22px rgba(14,80,90,.45);--gw:calc(100% - 2*clamp(10px,3vw,40px))}
+body{background:linear-gradient(180deg,#FFEBE3,#EEF6F0 42%,#D3EDE7) fixed}
+:focus-visible{outline-color:var(--teal)}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:radial-gradient(520px 380px at 90% 2%,rgba(255,206,120,.8),transparent 70%),radial-gradient(560px 420px at 2% 6%,rgba(255,165,185,.55),transparent 70%),radial-gradient(680px 480px at 18% 100%,rgba(70,190,175,.4),transparent 70%)}
+.bg::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='teal' stroke-opacity='.14'%3E%3Cellipse cx='22' cy='11' rx='7' ry='11'/%3E%3Cellipse cx='22' cy='33' rx='7' ry='11'/%3E%3Cellipse cx='11' cy='22' rx='11' ry='7'/%3E%3Cellipse cx='33' cy='22' rx='11' ry='7'/%3E%3C/g%3E%3C/svg%3E");-webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%)}
+.bg svg{position:absolute;left:0;bottom:0;width:100%;height:34vh;min-height:190px}
+.card,.topbar,.hero,.sheet{background:var(--gl);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:var(--ed),var(--sh)}
+.card{border-radius:26px}
+.topbar{top:10px;width:var(--gw);max-width:1620px;margin:10px auto 0;border-radius:22px;padding:10px 18px}
+.brand strong{font-family:'Manrope','Inter',sans-serif;font-size:1.02rem;font-weight:700}
+.live{background:rgba(18,163,127,.14);color:#0A7A5E;box-shadow:var(--ed)}
+.hero{width:var(--gw);max-width:1620px;margin:14px auto 0;border-radius:28px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:0 26px 0 30px;overflow:hidden}
+.hero>div{align-self:center;padding:22px 0}
+.hero h2,h1,.big,.ld b,.dbox b{font-family:'Manrope','Inter',sans-serif}
+.hero h2{font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.15;letter-spacing:-.01em}
+.hero p{margin-top:6px;font-size:.86rem;font-weight:600;color:var(--ink2);max-width:46ch}
+.hero-art{height:118px;width:auto;flex-shrink:0}
+.layout{width:var(--gw);max-width:1620px;padding:16px 0 44px}
+h1{font-size:1.8rem;font-weight:700}
+.btn,.chip,.brand-tab,.seg{background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.46));border:1px solid rgba(255,255,255,.85);box-shadow:var(--ed),0 6px 14px -8px rgba(14,80,90,.35)}
+.btn{height:42px;border-radius:14px}.btn:hover{background:#fff}
+.btn.pri,.chip.on{background:var(--tg);color:#fff;border-color:rgba(255,255,255,.45)}.btn.pri:hover{background:var(--tg);filter:brightness(1.08)}
+select.btn{appearance:none;-webkit-appearance:none;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%231E9C9A' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E"),linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.46));background-repeat:no-repeat,no-repeat;background-position:right 11px center,0 0}
+.seg{border-radius:15px;padding:4px}.seg button{border-radius:11px}.seg button.on{background:#fff;box-shadow:0 2px 8px -2px rgba(14,80,90,.35)}
+.chip{padding:7px 13px}
+.brand-tab{border-radius:14px}.brand-tab.km,.brand-tab.sm,.brand-tab.xx,.brand-tab.on.km,.brand-tab.on.sm,.brand-tab.on.xx{background:linear-gradient(180deg,#fff,rgba(255,255,255,.7))}
+.bar{border-top:0;box-shadow:var(--ed),var(--sh),inset 0 4px 0 var(--bt,rgba(43,183,170,.35))}
+.cl{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);border-radius:15px;box-shadow:var(--ed)}.cl>button b{background:var(--tg)}
+.note{background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.85);box-shadow:var(--ed);border-radius:16px}
+.dow,.grid{grid-template-columns:repeat(7,minmax(0,1fr));min-width:0}
+.dow{background:rgba(255,255,255,.55)}.dow .sun{color:var(--red)}
+.cell{background:rgba(255,255,255,.34);border:1px solid rgba(255,255,255,.75);border-radius:17px}
+.cell.has{background:linear-gradient(165deg,rgba(255,255,255,.96),rgba(255,255,255,.62));box-shadow:var(--ed)}
+.cell.has:hover,.cell.has:focus-visible{border-color:var(--teal);box-shadow:0 14px 26px -14px rgba(14,100,110,.55),var(--ed)}
+.cell.off{background:rgba(217,67,94,.07)}
+.cell.today{border-color:var(--teal);box-shadow:0 0 0 2px rgba(30,156,154,.32)}.cell.today .dn{background:var(--tg)}
+.cell.sys{background:repeating-linear-gradient(135deg,rgba(100,130,140,.12) 0 8px,rgba(255,255,255,.8) 8px 16px)}
+.big{font-weight:700}
+.lh{background:rgba(238,247,244,.82)}.lr:hover{background:rgba(255,255,255,.7)}
+.overlay{background:rgba(14,60,68,.34)}
+.sheet{background:linear-gradient(160deg,rgba(255,255,255,.93),rgba(255,255,255,.78));border-radius:28px}
+.dbox{background:var(--tg);box-shadow:var(--ed),0 10px 18px -10px rgba(15,111,120,.7)}
+.ib{background:rgba(255,255,255,.8);box-shadow:var(--ed)}
+.dr{background:rgba(255,255,255,.78);border-radius:14px}.kv div{background:rgba(255,255,255,.62);box-shadow:var(--ed)}
+.bc{background:rgba(255,255,255,.85)}
+#toast{background:rgba(18,50,59,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.25);bottom:calc(24px + env(safe-area-inset-bottom))}
+.loader{background:rgba(255,255,255,.55)}.spinner{border-top-color:var(--teal)}
+@media(max-width:1100px){.side{order:2}}
+@media(max-width:700px){
+ .topbar{top:8px;margin-top:8px;padding:9px 12px;border-radius:20px}.brand img{height:32px}.brand strong{font-size:.92rem}
+ .hero{margin-top:10px;padding:0 14px 0 18px;border-radius:24px}.hero>div{padding:16px 0}.hero h2{font-size:1.2rem}.hero p{font-size:.76rem}.hero-art{height:84px}
+ .layout{padding-top:12px;gap:12px}.card{border-radius:24px}h1{font-size:1.5rem}.bar{padding:14px}
+ .nav{display:grid;grid-template-columns:44px minmax(0,1fr) 92px 44px;gap:8px;width:100%}
+ #todayBtn{grid-column:1/3}#rangeBtn{grid-column:3/5}.jump{grid-column:1/5}.jump input{flex:1;min-width:0}
+ .rng{display:grid;grid-template-columns:46px minmax(0,1fr) 86px;gap:8px;width:100%}#rangeOff{grid-column:1/-1}
+ .brands,.chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -14px;padding:2px 14px 6px}.brands::-webkit-scrollbar,.chips::-webkit-scrollbar{display:none}
+ .brand-tab,.chip{flex-shrink:0}.seg{width:100%}.seg button{flex:1;padding:9px 0}
+ .dow,.grid{gap:4px}.dow{padding:12px 8px 6px}.dow div{font-size:.62rem}.grid{padding:2px 8px 12px}
+ .cell{min-height:64px;padding:6px 3px 5px;align-items:center;border-radius:12px;gap:3px}
+ .dn{align-self:center;font-size:.74rem}.cell.today .dn{padding:0 6px;border-radius:7px}
+ .hol,.dots,.bsp,.sysTag,.big small{display:none}.big{font-size:1.1rem}.bst{width:3px;top:9px;bottom:9px}.sb{width:100%}
+ .overlay{align-items:flex-end;padding:0}
+ .sheet,.sheet.narrow{max-width:none;max-height:92vh;border-radius:30px 30px 0 0;transform:translateY(100%);padding-bottom:env(safe-area-inset-bottom)}
+ .sheet::before{content:"";flex-shrink:0;width:42px;height:4px;margin:10px auto 0;border-radius:9px;background:rgba(18,50,59,.22)}
+ .sh{gap:6px}.dbox{width:50px;height:54px}.dbox b{font-size:1.4rem}.ib{width:34px}
+}
+/* Laporan PDF */
+.rp-head{padding:14px 18px;margin-bottom:12px;border:0;border-radius:16px;align-items:center;background:linear-gradient(90deg,rgba(8,58,66,.92),rgba(8,58,66,.4)),var(--ph,none) center 40%/cover #12525B}.rp-head::after{display:none}
+.rp-brand img{box-sizing:content-box;height:34px;padding:6px 10px;border-radius:10px;background:#fff}.rp-brand b,.rp-doc h1{color:#fff}.rp-brand span,.rp-doc p{color:rgba(255,255,255,.88)}
+.rp-doc h1{font-family:'Manrope','Inter',sans-serif;font-size:16pt}.rp-qr{padding:5px 9px;border-radius:12px;background:#fff}
+.rp-k{gap:10px}.rp-k div{border:0;border-radius:14px;background:#EEF6F4;padding:10px 14px}.rp-k b{font:700 20pt/1.1 'Manrope','Inter',sans-serif}
+.rp-k .s{background:#E3F5EE}.rp-k .s b{color:#0A7A5E}.rp-k .p{background:#FDF1DD}.rp-k .p b{color:#B8741A}.rp-k .k{background:#EDF1F5}.rp-k .k b{color:#475569}
+.rp-bar{height:8px;border-radius:9px}
+.rp h2{margin:16px 0 8px;font:700 11pt 'Manrope','Inter',sans-serif;color:#12525B}.rp .brk{break-before:page;margin-top:0}
+.rp th{background:#E3F2EE;color:#12525B;font-weight:800}.rp th:first-child{border-radius:8px 0 0 8px}.rp th:last-child{border-radius:0 8px 8px 0}
+.rp td{border-bottom:1px solid #EDF3F1}.rp tbody tr:nth-child(even) td{background:transparent}.rp tr.g td{background:#F1F8F6;color:#12525B}
+.rc-wrap{display:grid;grid-template-columns:1fr;gap:10px}.rc-wrap.multi{grid-template-columns:1fr 1fr}
+.rc{break-inside:avoid;padding:10px 10px 8px;border:1px solid #DCEBE8;border-radius:16px;background:#fff}
+.rc h3{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font:800 12pt/1 'Manrope','Inter',sans-serif;color:#12323B}
+.rc-l{display:flex;gap:10px;font:600 7pt 'Inter',sans-serif;color:#5A7A82}.rc-l i,.rc-s i{display:inline-block;width:6px;height:6px;margin-right:4px;border-radius:50%}
+.rc i.sent{background:#12A37F}.rc i.pending{background:#E39A2D}.rc i.stock{background:#94A3B8}
+.rc-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.rc-g>div{height:var(--h,14mm);display:flex;flex-direction:column;overflow:hidden;padding:4px 6px;border-radius:8px;background:#F5F9F8}
+.rc-g .w{height:auto;align-items:center;padding:2px 0 3px;background:none;font:700 7pt 'Inter',sans-serif;color:#6C8790}.rc-g .sun{color:#D9435E}.rc-g .e{background:none}
+.rc-g .o{background:#FDF1F3}.rc-g .o b{color:#D9435E}
+.rc-g .sy{background:repeating-linear-gradient(135deg,#E3EBEA 0 5px,#fff 5px 10px)}
+.rc-t{display:flex;justify-content:space-between;align-items:center}.rc-t b{font:800 8.5pt/1 'Manrope','Inter',sans-serif;color:#12323B}
+.rc-n{min-width:5mm;padding:1px 5px;border-radius:9px;background:#12525B;color:#fff;font:800 8pt/1.25 'Manrope','Inter',sans-serif;text-align:center}
+.rc-s{display:flex;gap:7px;margin-top:auto;margin-bottom:3px;font:700 6.6pt/1 'Inter',sans-serif;color:#2F5059}
+.rc-g em{margin-top:3px;font:600 5.6pt/1.2 'Inter',sans-serif;font-style:normal;color:#D9435E}
+.rb{display:flex;height:3px;margin-top:auto;border-radius:3px;overflow:hidden;background:#DCE6E4}.rc-s+.rb{margin-top:0}
+.rb .sent{background:#12A37F}.rb .pending{background:#E39A2D}.rb .stock{background:#94A3B8}
+.multi .rc-s,.multi em{display:none}.multi .rc-g>div{padding:3px 4px}.multi .rc-t b{font-size:7pt}.multi .rc-n{font-size:7pt}
+@media print{.bg,.hero{display:none!important}}
+
+/* Latar foto asli Indonesia */
+:root{--gl:linear-gradient(120deg,rgba(255,255,255,.72),rgba(255,255,255,.44) 40%,rgba(255,255,255,.6))}
+.ph{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity 1.8s ease}.ph.on{opacity:1}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 35%,rgba(8,50,60,.3))}
+.hero{background:linear-gradient(120deg,rgba(8,54,64,.5),rgba(8,54,64,.12));color:#fff;min-height:150px;backdrop-filter:blur(3px) saturate(150%);-webkit-backdrop-filter:blur(3px) saturate(150%)}
+.hero h2{text-shadow:0 2px 14px rgba(0,0,0,.4)}.hero p{color:rgba(255,255,255,.95);text-shadow:0 1px 8px rgba(0,0,0,.4)}
+.hero-cap{align-self:flex-end;margin-bottom:16px;padding:8px 14px;border-radius:14px;text-align:right;text-decoration:none;color:#fff;font-size:.8rem;font-weight:700;line-height:1.3;background:rgba(255,255,255,.2);box-shadow:var(--ed);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.hero-cap small{display:block;font-size:.66rem;font-weight:600;opacity:.88}
+@media(max-width:700px){.hero{flex-direction:column;align-items:flex-start;gap:0;min-height:0}.hero>div{padding:16px 0 10px}.hero-cap{align-self:stretch;margin:0 0 14px;text-align:left}}
+@media(max-width:700px){#todayBtn{order:1;justify-content:center}#rangeBtn{order:2;justify-content:center}.jump{order:3}#exportBtn{width:100%;justify-content:center}.nav .btn{min-width:0}}
+.foot{width:var(--gw);max-width:1620px;margin:-34px auto 14px;text-align:right}.foot a{display:inline-block;padding:6px 12px;border-radius:12px;background:rgba(255,255,255,.55);box-shadow:var(--ed);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:.7rem;font-weight:600;color:var(--ink2);text-decoration:none}.foot a[hidden]{display:none}
+
+/* Penyegaran: tab brand dan sel kalender */
+.brands{width:fit-content;max-width:100%;padding:5px;gap:6px;border-radius:20px;background:rgba(255,255,255,.38);border:1px solid rgba(255,255,255,.75);box-shadow:var(--ed)}
+.brands .brand-tab,.brands .brand-tab.km,.brands .brand-tab.sm,.brands .brand-tab.xx{gap:10px;height:44px;padding:0 10px 0 14px;border:0;border-radius:15px;background:transparent;box-shadow:none;color:var(--ink2);transition:background .2s,box-shadow .2s}
+.brands .brand-tab:hover{background:rgba(255,255,255,.62)}
+.brands .brand-tab .bl{height:17px;opacity:.8}
+.brands .brand-tab b{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:24px;padding:0 8px;border-radius:99px;background:rgba(18,50,59,.08);color:var(--ink2);font:800 .76rem 'Manrope','Inter',sans-serif}
+.brands .brand-tab.on{background:#fff;color:var(--ink);box-shadow:0 10px 20px -12px rgba(14,80,90,.55),inset 0 0 0 2px var(--c,var(--teal))}
+.brands .brand-tab.on .bl{opacity:1}.brands .brand-tab.on b{background:var(--t,rgba(30,156,154,.16));color:var(--ink)}
+.brands .brand-tab.on:not(.km):not(.sm):not(.xx){background:var(--tg);color:#fff;box-shadow:0 10px 20px -10px rgba(15,111,120,.8)}
+.brands .brand-tab.on:not(.km):not(.sm):not(.xx) b{background:rgba(255,255,255,.24);color:#fff}
+.cell{padding:12px;gap:6px;border-radius:18px}.cell .bst,.cell .dots{display:none}
+.cell .dn{font-size:.95rem;color:var(--ink)}.cell.off .dn{color:var(--red)}
+.cell.has{background:linear-gradient(rgba(30,156,154,calc(.03 + var(--r,0)*.15)),rgba(30,156,154,calc(.03 + var(--r,0)*.15))),linear-gradient(165deg,rgba(255,255,255,.96),rgba(255,255,255,.7))}
+.cell.has.sys{background:repeating-linear-gradient(135deg,rgba(100,130,140,.12) 0 8px,rgba(255,255,255,.8) 8px 16px)}
+.cell.has .big{position:absolute;top:9px;right:10px;display:flex;align-items:center;justify-content:center;min-width:30px;height:26px;padding:0 9px;border-radius:99px;background:var(--tg);color:#fff;font-size:.95rem;box-shadow:0 6px 12px -6px rgba(15,111,120,.8),var(--ed)}.cell .big small{display:none}
+.cell .bsp{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto}.cell .bsp+.sb{margin-top:0}
+.cell .sb{height:6px;gap:2px;border-radius:99px;background:rgba(18,50,59,.07)}
+.cell{container-type:inline-size}
+.bk{display:inline-flex;align-items:center;gap:5px;height:20px;padding:0 4px 0 7px;border-radius:99px;background:rgba(255,255,255,.92);border:1px solid var(--t);box-shadow:var(--ed)}
+.bk.km{--c:#EAB308;--t:rgba(234,179,8,.38)}.bk.sm{--c:#EA580C;--t:rgba(234,88,12,.28)}.bk.xx{--c:#64748B;--t:rgba(100,116,139,.28)}
+.bk i{display:block;width:8px;height:8px;border-radius:50%;background:var(--c)}
+.bk b{display:inline-flex;align-items:center;justify-content:center;min-width:15px;height:15px;padding:0 4px;border-radius:99px;background:var(--t);color:var(--ink);font:800 .66rem 'Manrope','Inter',sans-serif}
+@container (min-width:118px){.bk{height:22px;gap:6px;padding:0 4px 0 8px}.bk i{height:10px;border-radius:0;background:center/contain no-repeat}.bk.km i{width:54px;background-image:var(--logo-km)}.bk.sm i{width:70px;background-image:var(--logo-sm)}.bk.xx i{width:8px;height:8px;border-radius:50%;background:#94A3B8}}
+@media(max-width:700px){
+ .brands{display:flex;width:100%;margin:0;padding:5px;gap:4px;overflow-x:auto;scrollbar-width:none}.brands::-webkit-scrollbar{display:none}
+ .brands .brand-tab,.brands .brand-tab.km,.brands .brand-tab.sm,.brands .brand-tab.xx{flex-shrink:0;gap:5px;height:42px;padding:0 7px 0 9px}
+ .brands .brand-tab .bl{height:11px}.brands .brand-tab b{min-width:20px;height:20px;padding:0 5px;font-size:.7rem}
+ .cell{padding:6px 3px 5px;border-radius:12px}.cell .dn{font-size:.74rem}.cell .bsp{display:none}
+ .cell.has .big{position:static;min-width:0;height:auto;padding:0;border-radius:0;background:none;box-shadow:none;color:var(--ink);font-size:1.1rem}
+}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="bb" viewBox="0 0 240 110"><path d="M0 110V92H240V110ZM18 92V76H222V92ZM36 76V62H204V76ZM54 62V50H186V62Z"/><path d="M92 50Q120 8 148 50Z"/><rect x="118" y="4" width="4" height="14"/><circle cx="34" cy="70" r="6"/><circle cx="68" cy="70" r="6"/><circle cx="172" cy="70" r="6"/><circle cx="206" cy="70" r="6"/></symbol>
+<symbol id="palm" viewBox="0 0 100 160"><path d="M50 160Q56 100 46 56" fill="none" stroke="currentColor" stroke-width="5"/><path d="M46 56q-32-14-44 10q26-16 44-10zM46 56q-6-32-34-30q28 4 34 30zM46 56q22-24 52-8q-30-8-52 8zM46 56q10-26 38-24q-30 6-38 24z"/></symbol></defs></svg>
+<div class="bg" aria-hidden="true"><svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><path d="M0 300V190Q140 120 280 180T560 160T840 185T1200 140V300Z" fill="#BFE5DD" opacity=".7"/><path d="M800 300L930 110Q950 90 970 110L1100 300Z" fill="#A5D8CE" opacity=".8"/><use href="#bb" x="40" y="168" width="300" height="138" fill="#8CCBC2"/><path d="M520 300V176h14v16h12v20h12v88ZM680 300V176h-14v16h-12v20h-12v88Z" fill="#78BDB4"/><use href="#palm" x="1030" y="120" width="80" height="180" color="#5FAFA6" fill="#5FAFA6"/><use href="#palm" x="1110" y="160" width="60" height="140" color="#6DB9B0" fill="#6DB9B0"/><path d="M0 300V262Q150 240 300 262T600 262T900 262T1200 254V300Z" fill="#6FBFB5" opacity=".75"/></svg></div>
 <div id="app">
  <header class="topbar">
   <div class="brand"><img src="MSB Logo.png" alt="" onerror="this.style.display='none'"><div><strong>PT Murinda Sentra Baja</strong><span>Master Schedule Pengiriman</span></div></div>
@@ -257,6 +399,7 @@ h1{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
    </div>
   </section>
  </main>
+ <footer class="foot"><a id="phCap" target="_blank" rel="noopener" hidden></a></footer>
 </div>
 
 <div class="overlay" id="dayModal"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dmTitle">
@@ -294,7 +437,7 @@ const HIDDEN=['no.','no','periode bulan','bulan','code serial','number','search'
 const LONG={weekday:'long',day:'numeric',month:'long',year:'numeric'};
 
 let cur=new Date();cur=new Date(cur.getFullYear(),cur.getMonth(),1);
-let data=[],view=innerWidth<700?'list':'cal',fStatus='all',q='',timer=60,dayKey=null,dayF='all';
+let data=[],view='cal',fStatus='all',q='',timer=60,dayKey=null,dayF='all';
 let fBrand='all',rangeOn=false,rFrom=0,rTo=0,SYS=null;
 const openC=new Set();
 
@@ -316,9 +459,8 @@ const brandBadge=i=>i.brand==='xx'?'':`<span class="bd ${i.brand}">${brandName(i
 const brandColor=id=>(BRAND_RULES.find(r=>r.id===id)||{color:'#94A3B8'}).color;
 function brandPills(l){
   const c={};l.forEach(i=>c[i.brand]=(c[i.brand]||0)+1);
-  const ids=BRAND_RULES.map(r=>r.id).concat('xx').filter(k=>c[k]);let p=0;
-  const st=ids.map(k=>{const a=p;p+=c[k]/l.length*100;return`${brandColor(k)} ${a}% ${p}%`}).join(',');
-  return`<i class="bst" style="background:linear-gradient(to bottom,${st})"></i>`+(fBrand==='all'?`<div class="bsp">${ids.map(k=>`<span class="bd ${k}" title="${brandName(k)}: ${c[k]} unit">${brandName(k)[0]} ${c[k]}</span>`).join('')}</div>`:'');
+  const ids=BRAND_RULES.map(r=>r.id).concat('xx').filter(k=>c[k]);
+  return fBrand==='all'?`<div class="bsp">${ids.map(k=>`<span class="bk ${k}" title="${brandName(k)}: ${c[k]} unit"><i></i><b>${c[k]}</b></span>`).join('')}</div>`:'';
 }
 
 /* ===== Periode (satu bulan / rentang bulan) ===== */
@@ -421,6 +563,7 @@ function renderCalendar(items){
   const y=cur.getFullYear(),m=cur.getMonth(),n=new Date(y,m+1,0).getDate(),first=new Date(y,m,1).getDay(),t=new Date();
   $('calendarHeader').innerHTML=DAYS.map((d,i)=>`<div class="${i?'':'sun'}">${d}</div>`).join('');
   const by={};items.forEach(i=>(by[i.d.getDate()]=by[i.d.getDate()]||[]).push(i));
+  const mxc=Math.max(1,...Object.values(by).map(a=>a.length));
   let h='<div class="cell blank"></div>'.repeat(first);
   for(let d=1;d<=n;d++){
     const k=ymd(y,m,d),w=new Date(y,m,d).getDay(),hol=HOL[k],l=by[d]||[],cls=['cell'];
@@ -431,7 +574,7 @@ function renderCalendar(items){
       cls.push('has');if(k===SYS){cls.push('sys');inner+='<span class="sysTag">Stok sistem</span>'}const tp=[...new Set(l.map(i=>i.type))];
       inner+=`<div class="big">${l.length}<small>unit</small></div><div class="dots">${tp.slice(0,5).map(x=>`<i style="background:${sty(x).border}" title="${esc(x)}"></i>`).join('')}${tp.length>5?`<small>+${tp.length-5}</small>`:''}</div>${brandPills(l)}${bar(l)}`;
     }
-    h+=`<div class="${cls.join(' ')}"${l.length?` data-d="${k}" tabindex="0" role="button" aria-label="${d} ${MONTHS[m]}, ${l.length} unit"`:''}>${inner}</div>`;
+    h+=`<div class="${cls.join(' ')}"${l.length?` style="--r:${(l.length/mxc).toFixed(2)}" data-d="${k}" tabindex="0" role="button" aria-label="${d} ${MONTHS[m]}, ${l.length} unit"`:''}>${inner}</div>`;
   }
   $('calendarDays').innerHTML=h;
 }
@@ -490,6 +633,25 @@ function show(id){const o=$(id);o.style.display='flex';requestAnimationFrame(()=
 function hide(id){const o=$(id);o.classList.remove('show');setTimeout(()=>{if(!o.classList.contains('show'))o.style.display='none'},260)}
 
 /* ===== Export PDF (dialog cetak > Simpan sebagai PDF) ===== */
+function calReport(items){
+  const ms=[...new Set(items.map(i=>mIdx(i.d)))].sort((a,b)=>a-b),multi=ms.length>1,per={};
+  items.forEach(i=>per[i.key]=(per[i.key]||0)+1);const mx=Math.max(1,...Object.values(per));
+  const dot=(c,s)=>c[s]?`<span><i class="${s}"></i>${c[s]}</span>`:'';
+  return`<div class="rc-wrap${multi?' multi':''}" style="--h:${multi?'9.5mm':'14mm'}">`+ms.map(x=>{
+    const y=Math.floor(x/12),m=x%12,n=new Date(y,m+1,0).getDate(),f=new Date(y,m,1).getDay(),l=items.filter(i=>mIdx(i.d)===x),by={};
+    l.forEach(i=>(by[i.d.getDate()]=by[i.d.getDate()]||[]).push(i));
+    let g=DAYS.map((d,i)=>`<div class="w${i?'':' sun'}">${multi?d.slice(0,3):d}</div>`).join('')+'<div class="e"></div>'.repeat(f);
+    for(let d=1;d<=n;d++){
+      const a=by[d]||[],k=ymd(y,m,d),c=count(a),hol=HOL[k],off=new Date(y,m,d).getDay()===0||hol,sy=a.length&&k===SYS;
+      const bg=a.length&&!sy?` style="background:rgba(30,156,154,${(.08+.22*a.length/mx).toFixed(2)})"`:'';
+      g+=`<div class="${sy?'sy':off&&!a.length?'o':''}"${bg}><div class="rc-t"><b>${d}</b>${a.length?`<span class="rc-n">${a.length}</span>`:''}</div>`+
+        (a.length?`<div class="rc-s">${['sent','pending','stock'].map(s=>dot(c,s)).join('')}</div><div class="rb">${['sent','pending','stock'].map(s=>c[s]?`<i class="${s}" style="flex:${c[s]}"></i>`:'').join('')}</div>`:hol?`<em>${esc(hol)}</em>`:'')+'</div>';
+    }
+    g+='<div class="e"></div>'.repeat((7-(f+n)%7)%7);
+    const t=count(l);
+    return`<div class="rc"><h3><span>${MONTHS[m]} ${y}</span><span class="rc-l">${['sent','pending','stock'].map(s=>`<span><i class="${s}"></i>${t[s]} ${ST[s]}</span>`).join('')}</span></h3><div class="rc-g">${g}</div></div>`;
+  }).join('')+'</div>';
+}
 function reportHtml(items,period,note){
   items=[...items].sort((a,b)=>a.d-b.d||a.serial.localeCompare(b.serial));
   const c=count(items),t=items.length,pct=Math.round(c.sent/t*100),sysN=SYS?items.filter(i=>i.key===SYS).length:0;
@@ -511,7 +673,8 @@ function reportHtml(items,period,note){
   <div class="rp-k"><div><b>${t}</b><span>Total unit</span></div><div class="s"><b>${c.sent}</b><span>Terkirim</span></div><div class="p"><b>${c.pending}</b><span>Pending</span></div><div class="k"><b>${c.stock}</b><span>Stock</span></div></div>
   <div class="rp-bar"><i style="width:${c.sent/t*100}%;background:#0E9F6E"></i><i style="width:${c.pending/t*100}%;background:#D97706"></i><i style="width:${c.stock/t*100}%;background:#94A3B8"></i></div>
   <p class="rp-cap">Tingkat terkirim ${pct}% (${c.sent} dari ${t} unit).${note?' Filter aktif: '+esc(note)+'.':''}</p>${sysN?`<p class="rp-cap">Catatan: ${sysN} unit pada ${sysLabel()} adalah unit stok untuk kepentingan sistem. ${SYS_TXT}</p>`:''}
-  <h2>Ringkasan per client</h2>
+  <h2>Kalender jadwal</h2>${calReport(items)}
+  <h2 class="brk">Ringkasan per client</h2>
   <table class="sm"><thead><tr><th>Client</th><th class="n">Total</th><th class="n">Terkirim</th><th class="n">Pending</th><th class="n">Stock</th></tr></thead><tbody>${crow}</tbody></table>
   <h2>Rincian pengiriman</h2>
   <table><thead><tr><th class="n">No</th><th>Serial number</th><th>Unit</th><th>Client</th><th>Brand</th><th>Tipe</th>${hasDn?'<th>No. pengiriman</th>':''}${hasVeh?'<th>Kendaraan / driver</th>':''}<th>Status</th></tr></thead><tbody>${rows}</tbody></table>
@@ -520,7 +683,7 @@ function reportHtml(items,period,note){
 }
 function exportPDF(items,period,note,name){
   if(!items.length){toast('Tidak ada data untuk diexport');return}
-  $('report').innerHTML=reportHtml(items,period,note);
+  $('report').innerHTML=reportHtml(items,period,note);$('report').style.setProperty('--ph',PH.on?`url("${PH.on}")`:'none');
   const old=document.title,done=()=>{document.title=old;removeEventListener('afterprint',done)};
   document.title=`Laporan Pengiriman - ${name||period}`;addEventListener('afterprint',done);
   setTimeout(()=>print(),250);
@@ -570,8 +733,29 @@ function bind(){
   };
 }
 
+/* ===== Latar foto Indonesia (Wikimedia Commons, lisensi bebas) ===== */
+const PHOTOS=[
+ ['Mount Bromo at sunrise, showing its volcanoes and Mount Semeru (background).jpg','Gunung Bromo, Jawa Timur'],
+ ['Borobudur Sunrise 2012-01-05.jpg','Candi Borobudur, Jawa Tengah'],
+ ['Brantan Bali Pura-Ulun-Danu-Bratan-01.jpg','Pura Ulun Danu Bratan, Bali']
+];
+const PH={on:''};
+function initBg(){
+  const bg=document.querySelector('.bg'),cap=$('phCap'),els=[];let k=0;
+  const show=n=>{els.forEach((e,i)=>e.classList.toggle('on',i===n));const e=els[n],f=PHOTOS[+e.dataset.i];PH.on=e.dataset.u;
+    cap.href='https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(f[0]);cap.textContent=`Foto: ${f[1]}, Wikimedia Commons`};
+  PHOTOS.forEach(([f],i)=>{
+    const u='https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(f)+'?width=1600',im=new Image();
+    im.onload=()=>{const e=document.createElement('i');e.className='ph';e.style.backgroundImage=`url("${u}")`;e.dataset.u=u;e.dataset.i=i;bg.appendChild(e);els.push(e);if(els.length===1)show(0)};
+    im.src=u;
+  });
+  cap.hidden=true;setTimeout(()=>{cap.hidden=!els.length},1500);
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches)setInterval(()=>{if(els.length>1){k=(k+1)%els.length;show(k)}},10000);
+}
+
 /* ===== Jalankan ===== */
-bind();
+BRAND_RULES.forEach(r=>document.documentElement.style.setProperty('--logo-'+r.id,`url("${r.logo}")`));
+bind();initBg();
 const tick=()=>{$('realTimeClock').textContent=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' WIB'};
 tick();setInterval(tick,1000);
 setInterval(()=>{timer--;$('countdown').textContent=timer;if(timer<=0){timer=60;fetchData(true)}},1000);
